@@ -101,6 +101,21 @@ app.post('/login', (req, res) =>{
 })
 
 
+app.post('/newPiece', (req, res) => {
+	var values = [req.body.Title, req.body.Year, req.body.ImgUrl, req.body.Blurb, req.body.Medium]
+	var insertStatment= "INSERT INTO paintingtable (PaintingTitle, PaintingYear, ImageURL, Blurb, Medium)  VALUES ?"
+	connection.query(insertStatment, [[values]], (err, results) =>{
+		if(err){
+			
+			res.sendStatus(400)
+		}
+		else{
+			res.sendStatus(200)
+		}
+	})
+
+})
+
 app.listen(4000, () => {
 	console.log('connected to db')
 })
