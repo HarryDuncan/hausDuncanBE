@@ -116,6 +116,23 @@ app.post('/newPiece', (req, res) => {
 
 })
 
+
+
+app.post('/newProduct', (req, res) => {
+	var values = [req.body.Name, req.body.Blurb, req.body.Price, req.body.ImgUrl,  req.body.Stock, req.body.ArtID]
+	var insertStatment= "INSERT INTO products (ProductName, Blurb, Price, ImageUrl, stock, ArtID)  VALUES ?"
+	connection.query(insertStatment, [[values]], (err, results) =>{
+		if(err){
+			
+			res.sendStatus(400)
+		}
+		else{
+			res.sendStatus(200)
+		}
+	})
+
+})
+
 app.listen(4000, () => {
 	console.log('connected to db')
 })
