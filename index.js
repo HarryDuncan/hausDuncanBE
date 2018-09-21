@@ -27,6 +27,14 @@ connection.connect(err => {
 
 app.use(cors());
 
+var router = express.Router();
+const Dashboard = require('./routes/Dashboard.js');
+const S3Resolve = require('./routes/S3Resolver.js')
+app.use('/Dashboard', Dashboard);
+app.use('/S3Resolve', S3Resolve);
+
+
+
 const selectAllPaintings = 'SELECT * FROM paintingtable';
 const selectAllBannerImages = 'SELECT * FROM bannerimages';
 const selectAllProducts = 'SELECT * FROM products';
@@ -101,37 +109,7 @@ app.post('/login', (req, res) =>{
 })
 
 
-app.post('/newPiece', (req, res) => {
-	var values = [req.body.Title, req.body.Year, req.body.ImgUrl, req.body.Blurb, req.body.Medium]
-	var insertStatment= "INSERT INTO paintingtable (PaintingTitle, PaintingYear, ImageURL, Blurb, Medium)  VALUES ?"
-	connection.query(insertStatment, [[values]], (err, results) =>{
-		if(err){
-			
-			res.sendStatus(400)
-		}
-		else{
-			res.sendStatus(200)
-		}
-	})
 
-})
-
-
-
-app.post('/newProduct', (req, res) => {
-	var values = [req.body.Name, req.body.Blurb, req.body.Price, req.body.ImgUrl,  req.body.Stock, req.body.ArtID]
-	var insertStatment= "INSERT INTO products (ProductName, Blurb, Price, ImageUrl, stock, ArtID)  VALUES ?"
-	connection.query(insertStatment, [[values]], (err, results) =>{
-		if(err){
-			
-			res.sendStatus(400)
-		}
-		else{
-			res.sendStatus(200)
-		}
-	})
-
-})
 
 app.listen(4000, () => {
 	console.log('connected to db')
