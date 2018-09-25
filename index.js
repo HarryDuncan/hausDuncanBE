@@ -66,7 +66,7 @@ app.get('/banner', (req, res) =>{
 	})
 });
 app.get('/products', (req, res) =>{
-	connection.query(selectAllBannerImages, (err, results) => {
+	connection.query(selectAllProducts, (err, results) => {
 		if(err){
 			return res.send(err)
 		}
