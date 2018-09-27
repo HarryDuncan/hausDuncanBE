@@ -19,7 +19,7 @@ router.post('/signs3Bucket', (req, res) => {
 
 	const s3Params = {
         Bucket: s3Bucket,
-        Key: req.body.key,
+        Key: 'Gallery/' + req.body.key,
         Expires: 60,
         ContentType: 'jpg',
         ACL: 'public-read',
@@ -33,8 +33,39 @@ router.post('/signs3Bucket', (req, res) => {
    	 aws.config.region = process.env.AWS_REGION;
 
    	 s3.getSignedUrl('putObject', s3Params, function(err, url){
+      console.log(url);
    	 	res.send(url)
    	 })
+
+
+
+})
+
+
+
+router.post('/signs3BucketProducts', (req, res) => {
+
+  
+  var s3 = new aws.S3();
+
+  const s3Params = {
+        Bucket: s3Bucket,
+        Key: 'Gallery/Product' + req.body.key,
+        Expires: 60,
+        ContentType: 'jpg',
+        ACL: 'public-read',
+      };
+
+      aws.config.update({
+      accessKeyId:  process.env.AWS_ACCESS_KEY_ID,
+      secretAccessKeyId: process.env.AWS_SECRET_ACCESS_KEY,
+      });
+
+     aws.config.region = process.env.AWS_REGION;
+
+     s3.getSignedUrl('putObject', s3Params, function(err, url){
+      res.send(url)
+     })
 
 
 
